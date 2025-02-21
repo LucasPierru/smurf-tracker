@@ -18,6 +18,5 @@ export async function POST(request: Request) {
     reportedAccount: userReported._id,
     message,
   });
-  console.log(userReported, report);
-  return Response.json({ res });
+  return Response.json({ report });
 }

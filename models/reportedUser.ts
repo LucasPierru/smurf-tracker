@@ -6,13 +6,11 @@ export interface IReportedUser extends Document {
   createdAt: Date;
   updatedAt: Date;
   username: string;
-  reports: mongoose.Types.ObjectId[];
 }
 
 const ReportedUserSchema = new Schema(
   {
     username: { type: String, required: true, unique: true },
-    reports: [{ type: mongoose.Schema.Types.ObjectId, ref: "Report" }],
   },
   { timestamps: true }
 );

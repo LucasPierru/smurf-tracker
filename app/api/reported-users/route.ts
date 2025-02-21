@@ -8,9 +8,25 @@ export async function GET(request: NextRequest) {
 
   const searchParams = request.nextUrl.searchParams;
   const search = searchParams.get("search");
+  const page = searchParams.get("page");
+  const perPage = searchParams.get("perPage");
 
-  const userReported = await ReportedUser.find({
-    $text: { $search: decodeURIComponent(search as string) },
-  });
-  return Response.json({ userReported });
+  const perPageNum = Number(perPage) || 3;
+  const pageNum = Number(page) || 0;
+
+  const query: { $text?: { $search: string } } = {};
+
+  if (search) {
+    query.$text = { $search: search as string };
+  }
+
+  try {
+    const reportedUsers = await ReportedUser.find(query)
+      .limit(perPageNum)
+      .skip(pageNum * perPageNum);
+    return Response.json({ reportedUsers, error: null });
+  } catch (error) {
+    console.log(error);
+    return Response.json({ reportedUsers: null, error });
+  }
 }

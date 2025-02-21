@@ -7,6 +7,8 @@ import Button from "../button/button";
 import Input from "../input/input";
 import { ChangeEvent, useState } from "react";
 import Textarea from "../textarea/textarea";
+import { Card } from "../card/card";
+import H3 from "../headers/h3/h3";
 
 const Form = () => {
   const [users, setUsers] = useState<{ _id: string; username: string }[]>([]);
@@ -31,7 +33,11 @@ const Form = () => {
   } = useForm<Inputs>({ resolver: yupResolver(schema) });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log({ data });
+    await fetch(`/api/reports`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    setUsers([]);
     reset();
   };
 
@@ -40,9 +46,8 @@ const Form = () => {
       `/api/reported-users?search=${encodeURIComponent(event.target.value)}`
     );
     const data = await response.json();
-    const { userReported } = data;
-    setUsers(userReported);
-    console.log({ userReported });
+    const { reportedUsers } = data;
+    setUsers(reportedUsers);
     if (event.target.value === "") {
       setUsers([]);
     }
@@ -54,11 +59,12 @@ const Form = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-2 relative w-full"
-    >
-      <div className="flex gap-2">
+    <Card>
+      <H3>Report a smurf</H3>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-4 relative w-full"
+      >
         <div className="relative w-full">
           <Input
             id="username"
@@ -71,11 +77,11 @@ const Form = () => {
             error={errors.username}
           />
           {users.length > 0 && (
-            <div className="bg-white absolute z-30 top-11 w-full flex flex-col rounded-b-xl border border-gray-400 text-lg">
+            <div className="bg-white/5 absolute z-30 top-11 w-full flex flex-col rounded-b-xl border border-gray-400 text-lg">
               {users.map((user) => (
                 <span
                   key={user._id}
-                  className="py-1 px-4 bg-white hover:brightness-90 last:rounded-b-xl"
+                  className="py-1 px-4 bg-[#364775] hover:brightness-90 last:rounded-b-xl"
                   onClick={() => {
                     onSelectUser(user.username);
                   }}
@@ -86,17 +92,17 @@ const Form = () => {
             </div>
           )}
         </div>
+        <Textarea
+          id="textarea"
+          placeholder="Message (optional)"
+          {...register("message", {
+            required: true,
+          })}
+          error={errors.message}
+        />
         <Button type="submit">Report</Button>
-      </div>
-      <Textarea
-        id="textarea"
-        placeholder="Message (optional)"
-        {...register("message", {
-          required: true,
-        })}
-        error={errors.message}
-      />
-    </form>
+      </form>{" "}
+    </Card>
   );
 };
 

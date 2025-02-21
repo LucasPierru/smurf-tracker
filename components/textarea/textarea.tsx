@@ -16,7 +16,7 @@ const Textarea = forwardRef(
       <>
         <textarea
           id={id}
-          className="bg-secondary text-foreground placeholder:text-foreground w-full focus:outline-0 py-2 px-4 rounded-lg border border-gray-400 text-lg resize-none min-h-36"
+          className="bg-white/5 bg-secondary text-foreground placeholder:text-foreground w-full focus:outline-0 py-2 px-4 rounded-lg border border-gray-400 text-lg resize-none min-h-36"
           ref={ref}
           {...otherProps}
         />

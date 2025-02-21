@@ -18,7 +18,7 @@ const Input = forwardRef(
         <input
           id={id}
           type={type}
-          className="bg-secondary text-foreground placeholder:text-foreground w-full focus:outline-0 py-2 px-4 rounded-lg border border-gray-400 text-lg"
+          className="bg-white/5 text-foreground placeholder:text-foreground w-full focus:outline-0 py-2 px-4 rounded-lg border border-gray-400 text-lg"
           ref={ref}
           {...otherProps}
         />
