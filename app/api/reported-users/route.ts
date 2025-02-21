@@ -3,6 +3,8 @@ import { type NextRequest } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import ReportedUser from "@/models/reportedUser";
 
+export const maxDuration = 300;
+
 export async function GET(request: NextRequest) {
   await dbConnect();
 
