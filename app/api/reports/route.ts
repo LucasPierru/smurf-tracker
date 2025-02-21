@@ -2,7 +2,7 @@ import dbConnect from "@/lib/mongodb";
 import Report from "@/models/report";
 import ReportedUser from "@/models/reportedUser";
 
-export const maxDuration = 300;
+export const maxDuration = 60;
 
 export async function POST(request: Request) {
   await dbConnect();
